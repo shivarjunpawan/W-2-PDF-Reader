@@ -6,14 +6,22 @@ import pandas as pd
 from typing import Dict, List, Optional
 import io
 import os
-import google.generativeai as genai
-from dotenv import load_dotenv
+try:
+    import google.generativeai as genai
+    GEMINI_AVAILABLE = True
+except ImportError:
+    GEMINI_AVAILABLE = False
+
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
 import json
 import zipfile
 from datetime import datetime
 
-# Load environment variables
-load_dotenv()
+
 
 
 
@@ -24,8 +32,8 @@ class W2FormParserGemini:
         self.extracted_data = {}
         self.gemini_api_key = os.getenv('GEMINI_API_KEY')
         
-        # Initialize Gemini if API key is available
-        if self.gemini_api_key:
+        # Initialize Gemini if API key is available and library is installed
+        if self.gemini_api_key and GEMINI_AVAILABLE:
             try:
                 genai.configure(api_key=self.gemini_api_key)
                 self.model = genai.GenerativeModel('models/gemini-1.5-pro')
