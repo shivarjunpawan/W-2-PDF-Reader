@@ -1,3 +1,4 @@
+# W-2 Form Scanner Dependencies
 streamlit>=1.28.0
 PyPDF2>=3.0.0
 pdfplumber>=0.10.0
